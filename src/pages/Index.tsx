@@ -1,329 +1,344 @@
-import { LiquidMetalBackground } from "@/components/LiquidMetalBackground"
 import { FloatingNavbar } from "@/components/FloatingNavbar"
-import { ShinyButton } from "@/components/ui/shiny-button"
-import { Feature } from "@/components/ui/feature-with-advantages"
-import { BentoPricing } from "@/components/ui/bento-pricing"
-import { ContactCard } from "@/components/ui/contact-card"
-import { AboutQuote } from "@/components/ui/about-quote"
 import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { MailIcon, PhoneIcon, MapPinIcon } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { useEffect, useRef } from "react"
+import { Label } from "@/components/ui/label"
+import Icon from "@/components/ui/icon"
+
+const STUDIO_IMG = "https://cdn.poehali.dev/projects/5e9f89bc-6533-4f3c-a6b5-a3eb69a6cd19/files/59cac769-59d4-405a-b0ef-ca640764b1b8.jpg"
+const TRAINER_F = "https://cdn.poehali.dev/projects/5e9f89bc-6533-4f3c-a6b5-a3eb69a6cd19/files/79aaf5d6-94c0-4aae-86c8-77074630349e.jpg"
+const TRAINER_M = "https://cdn.poehali.dev/projects/5e9f89bc-6533-4f3c-a6b5-a3eb69a6cd19/files/be2f4002-3db8-45ae-88ce-67c4c5dc55fe.jpg"
+
+const scrollTo = (id: string) => {
+  document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
+}
 
 export default function Index() {
-  const scrollContainerRef = useRef<HTMLDivElement>(null)
-  const pricingSectionRef = useRef<HTMLDivElement>(null)
-  const aboutSectionRef = useRef<HTMLDivElement>(null)
-  const contactSectionRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const scrollContainer = scrollContainerRef.current
-    if (!scrollContainer) return
-
-    const handleWheel = (e: WheelEvent) => {
-      const delta = e.deltaY
-      const currentScroll = scrollContainer.scrollLeft
-      const containerWidth = scrollContainer.offsetWidth
-      const currentSection = Math.round(currentScroll / containerWidth)
-
-      if (currentSection === 2 && pricingSectionRef.current) {
-        const pricingSection = pricingSectionRef.current
-        const isAtTop = pricingSection.scrollTop === 0
-        const isAtBottom = pricingSection.scrollTop + pricingSection.clientHeight >= pricingSection.scrollHeight - 1
-
-        if (delta > 0 && !isAtBottom) {
-          return
-        }
-
-        if (delta < 0 && !isAtTop) {
-          return
-        }
-
-        if (delta < 0 && isAtTop) {
-          e.preventDefault()
-          scrollContainer.scrollTo({
-            left: 1 * containerWidth,
-            behavior: "smooth",
-          })
-          return
-        }
-
-        if (delta > 0 && isAtBottom) {
-          e.preventDefault()
-          scrollContainer.scrollTo({
-            left: 3 * containerWidth,
-            behavior: "smooth",
-          })
-          return
-        }
-      }
-
-      if (currentSection === 3 && aboutSectionRef.current) {
-        const aboutSection = aboutSectionRef.current
-        const isAtTop = aboutSection.scrollTop === 0
-        const isAtBottom = aboutSection.scrollTop + aboutSection.clientHeight >= aboutSection.scrollHeight - 1
-
-        if (delta > 0 && !isAtBottom) {
-          return
-        }
-
-        if (delta < 0 && !isAtTop) {
-          return
-        }
-
-        if (delta < 0 && isAtTop) {
-          e.preventDefault()
-          scrollContainer.scrollTo({
-            left: 2 * containerWidth,
-            behavior: "smooth",
-          })
-          return
-        }
-
-        if (delta > 0 && isAtBottom) {
-          e.preventDefault()
-          scrollContainer.scrollTo({
-            left: 4 * containerWidth,
-            behavior: "smooth",
-          })
-          return
-        }
-      }
-
-      if (currentSection === 4 && contactSectionRef.current) {
-        const contactSection = contactSectionRef.current
-        const isAtTop = contactSection.scrollTop === 0
-        const isAtBottom = contactSection.scrollTop + contactSection.clientHeight >= contactSection.scrollHeight - 1
-
-        if (delta > 0 && !isAtBottom) {
-          return
-        }
-
-        if (delta < 0 && !isAtTop) {
-          return
-        }
-
-        if (delta < 0 && isAtTop) {
-          e.preventDefault()
-          scrollContainer.scrollTo({
-            left: 3 * containerWidth,
-            behavior: "smooth",
-          })
-          return
-        }
-
-        if (delta > 0 && isAtBottom) {
-          e.preventDefault()
-          return
-        }
-      }
-
-      e.preventDefault()
-
-      if (Math.abs(delta) > 10) {
-        let targetSection = currentSection
-        if (delta > 0) {
-          targetSection = Math.min(currentSection + 1, 4)
-        } else {
-          targetSection = Math.max(currentSection - 1, 0)
-        }
-
-        scrollContainer.scrollTo({
-          left: targetSection * containerWidth,
-          behavior: "smooth",
-        })
-      }
-    }
-
-    scrollContainer.addEventListener("wheel", handleWheel, { passive: false })
-    return () => scrollContainer.removeEventListener("wheel", handleWheel)
-  }, [])
-
   return (
-    <main className="relative h-screen overflow-hidden">
-      <LiquidMetalBackground />
-
-      <div className="fixed inset-0 z-[5] bg-black/50" />
-
+    <main className="bg-[#212226] text-white overflow-x-hidden">
       <FloatingNavbar />
 
-      <div
-        ref={scrollContainerRef}
-        className="relative z-10 flex h-screen w-full overflow-x-auto overflow-y-hidden scroll-smooth snap-x snap-mandatory hide-scrollbar"
-        style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+      {/* HERO / PROMO SECTION */}
+      <section
+        id="promo"
+        className="relative min-h-screen flex items-center justify-center overflow-hidden"
       >
-        <section id="home" className="flex min-w-full snap-start items-center justify-center px-4 py-20">
-          <div className="mx-auto max-w-4xl">
-            <div className="text-center px-0 leading-5">
-              <h1 className="mb-8 text-balance text-5xl tracking-tight text-white [text-shadow:_0_4px_20px_rgb(0_0_0_/_60%)] md:text-6xl lg:text-8xl">
-                <span className="font-open-sans-custom not-italic">Идея.</span>{" "}
-                <span className="font-serif italic">Промпт.</span>{" "}
-                <span className="font-open-sans-custom not-italic">Результат.</span>
-              </h1>
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${STUDIO_IMG})` }}
+        />
+        <div className="absolute inset-0 bg-[#212226]/75" />
 
-              <p className="mb-8 mx-auto max-w-2xl text-pretty leading-relaxed text-gray-300 [text-shadow:_0_2px_10px_rgb(0_0_0_/_50%)] font-thin font-open-sans-custom tracking-wide leading-7 text-xl">
-                дизайнер, разработчик или просто любопытный — возьми идею,{" "}
-                <span className="font-serif italic">опиши</span> её и наблюдай, как она оживает
-              </p>
+        {/* Pink accent line */}
+        <div className="absolute top-0 left-0 right-0 h-[2px] bg-[#FE0CF6]" />
 
-              <div className="flex justify-center">
-                <ShinyButton className="px-8 py-3 text-base">начать</ShinyButton>
+        <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
+          <div className="inline-block border border-[#FE0CF6] px-4 py-1 mb-6">
+            <span className="font-bebas tracking-widest text-[#FE0CF6] text-sm">СПЕЦИАЛЬНОЕ ПРЕДЛОЖЕНИЕ</span>
+          </div>
+
+          <h1 className="font-bebas text-7xl md:text-9xl lg:text-[12rem] leading-none text-white mb-2">
+            3 МЕСЯЦА
+          </h1>
+          <h2 className="font-bebas text-4xl md:text-6xl lg:text-8xl leading-none text-[#FE0CF6] text-pink-glow mb-8">
+            В ПОДАРОК
+          </h2>
+
+          <p className="font-open-sans text-gray-300 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+            При покупке абонемента на <span className="text-white font-semibold">12 месяцев</span> — получаете 3 месяца в подарок.<br />
+            Пробная тренировка — от <span className="text-[#FE0CF6] font-semibold">500 ₽</span>
+          </p>
+
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <button
+              onClick={() => scrollTo("contact")}
+              className="font-bebas tracking-widest bg-[#FE0CF6] text-white px-10 py-4 text-xl hover:bg-[#FE0CF6]/80 transition-all pink-glow"
+            >
+              ЗАПИСАТЬСЯ НА ПРОБНОЕ
+            </button>
+            <button
+              onClick={() => scrollTo("contact")}
+              className="font-bebas tracking-widest border-2 border-white text-white px-10 py-4 text-xl hover:border-[#FE0CF6] hover:text-[#FE0CF6] transition-all"
+            >
+              КУПИТЬ АБОНЕМЕНТ
+            </button>
+          </div>
+        </div>
+
+        <div className="absolute bottom-8 left-0 right-0 flex justify-center animate-bounce">
+          <Icon name="ChevronDown" size={32} className="text-[#FE0CF6]" />
+        </div>
+      </section>
+
+      {/* TICKER */}
+      <div className="bg-[#FE0CF6] py-3 overflow-hidden">
+        <div className="flex animate-scroll-left whitespace-nowrap">
+          {Array.from({ length: 8 }).map((_, i) => (
+            <span key={i} className="font-bebas tracking-widest text-white text-lg mx-8">
+              L.A.B SPACE · ФИТНЕС СТУДИЯ · 3 МЕСЯЦА В ПОДАРОК · ЗАПИСАТЬСЯ СЕЙЧАС ·
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* FEATURES */}
+      <section id="features" className="py-24 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-16 text-center">
+            <span className="font-bebas tracking-widest text-[#FE0CF6] text-lg">ПОЧЕМУ МЫ</span>
+            <h2 className="font-bebas text-5xl md:text-7xl text-white mt-2">ПРЕИМУЩЕСТВА СТУДИИ</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/10">
+            {[
+              {
+                icon: "Dumbbell",
+                title: "ПРОФЕССИОНАЛЬНОЕ ОБОРУДОВАНИЕ",
+                desc: "Тренажёры премиум-класса для максимального результата",
+              },
+              {
+                icon: "Users",
+                title: "ОПЫТНЫЕ ТРЕНЕРЫ",
+                desc: "Персональный подход и программы под ваши цели",
+              },
+              {
+                icon: "Clock",
+                title: "УДОБНОЕ РАСПИСАНИЕ",
+                desc: "Тренировки утром, днём и вечером — 7 дней в неделю",
+              },
+              {
+                icon: "Star",
+                title: "НЕБОЛЬШИЕ ГРУППЫ",
+                desc: "До 10 человек в группе — максимум внимания каждому",
+              },
+              {
+                icon: "Zap",
+                title: "ПРОБНОЕ ЗАНЯТИЕ",
+                desc: "Попробуй первую тренировку всего за 500 ₽",
+              },
+              {
+                icon: "Shield",
+                title: "КОМФОРТНАЯ АТМОСФЕРА",
+                desc: "Современная раздевалка, душ, зона отдыха",
+              },
+            ].map((item) => (
+              <div
+                key={item.title}
+                className="bg-[#212226] p-8 group hover:bg-[#2a2a2e] transition-colors"
+              >
+                <div className="mb-4 inline-flex w-12 h-12 items-center justify-center border border-[#FE0CF6]/40 group-hover:border-[#FE0CF6] transition-colors">
+                  <Icon name={item.icon as "Star"} size={22} className="text-[#FE0CF6]" />
+                </div>
+                <h3 className="font-bebas text-xl tracking-wide text-white mb-2">{item.title}</h3>
+                <p className="text-gray-400 text-sm leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* TRAINERS */}
+      <section id="trainers" className="py-24 px-4 bg-[#1a1b1e]">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-16 text-center">
+            <span className="font-bebas tracking-widest text-[#FE0CF6] text-lg">КОМАНДА</span>
+            <h2 className="font-bebas text-5xl md:text-7xl text-white mt-2">НАШИ ТРЕНЕРЫ</h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="relative group overflow-hidden">
+              <img
+                src={TRAINER_F}
+                alt="Тренер Анна"
+                className="w-full h-[500px] object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#212226] via-transparent to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <div className="border-l-2 border-[#FE0CF6] pl-4">
+                  <h3 className="font-bebas text-3xl text-white">АННА СОКОЛОВА</h3>
+                  <p className="text-[#FE0CF6] font-bebas tracking-wide">ПЕРСОНАЛЬНЫЙ ТРЕНЕР · 7 ЛЕТ ОПЫТА</p>
+                  <p className="text-gray-400 text-sm mt-2">Специализация: функциональный тренинг, похудение, реабилитация</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="relative group overflow-hidden">
+              <img
+                src={TRAINER_M}
+                alt="Тренер Максим"
+                className="w-full h-[500px] object-cover object-top grayscale group-hover:grayscale-0 transition-all duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#212226] via-transparent to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-6">
+                <div className="border-l-2 border-[#FE0CF6] pl-4">
+                  <h3 className="font-bebas text-3xl text-white">МАКСИМ КОВАЛЕВ</h3>
+                  <p className="text-[#FE0CF6] font-bebas tracking-wide">ТРЕНЕР ПО СИЛОВЫМ · 5 ЛЕТ ОПЫТА</p>
+                  <p className="text-gray-400 text-sm mt-2">Специализация: силовые тренировки, набор массы, кроссфит</p>
+                </div>
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        <section id="features" className="flex min-w-full snap-start items-center justify-center px-4 py-20">
-          <div className="mx-auto max-w-7xl w-full">
-            <Feature />
+      {/* REVIEWS */}
+      <section id="reviews" className="py-24 px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="mb-16 text-center">
+            <span className="font-bebas tracking-widest text-[#FE0CF6] text-lg">КЛИЕНТЫ</span>
+            <h2 className="font-bebas text-5xl md:text-7xl text-white mt-2">ОТЗЫВЫ</h2>
           </div>
-        </section>
 
-        <section
-          id="pricing"
-          ref={pricingSectionRef}
-          className="relative min-w-full snap-start overflow-y-auto px-4 pt-24 pb-20 hide-scrollbar"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        >
-          <div
-            aria-hidden="true"
-            className={cn(
-              "absolute inset-0 z-0 size-full pointer-events-none",
-              "bg-[radial-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)]",
-              "bg-[size:12px_12px]",
-              "opacity-30",
-            )}
-          />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-white/10">
+            {[
+              {
+                name: "Мария К.",
+                role: "Клиент 2 года",
+                text: "Записалась на пробное занятие и осталась навсегда. Анна — лучший тренер, которого я встречала. За 3 месяца сбросила 8 кг!",
+                stars: 5,
+              },
+              {
+                name: "Дмитрий В.",
+                role: "Клиент 1.5 года",
+                text: "Отличная студия с приятной атмосферой. Небольшие группы — это огромный плюс. Тренер всегда подскажет и поправит технику.",
+                stars: 5,
+              },
+              {
+                name: "Екатерина Л.",
+                role: "Клиент 8 месяцев",
+                text: "Взяла абонемент на год и получила 3 месяца в подарок — отличное предложение! Результат виден уже после первого месяца.",
+                stars: 5,
+              },
+            ].map((review) => (
+              <div key={review.name} className="bg-[#212226] p-8">
+                <div className="flex gap-1 mb-4">
+                  {Array.from({ length: review.stars }).map((_, i) => (
+                    <Icon key={i} name="Star" size={14} className="text-[#FE0CF6] fill-[#FE0CF6]" />
+                  ))}
+                </div>
+                <p className="text-gray-300 text-sm leading-relaxed mb-6">«{review.text}»</p>
+                <div className="border-t border-white/10 pt-4">
+                  <p className="font-bebas text-lg text-white">{review.name}</p>
+                  <p className="text-[#FE0CF6] text-xs tracking-wide">{review.role}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
-          <div className="relative z-10 mx-auto w-full max-w-5xl">
-            <div className="mx-auto mb-10 max-w-2xl text-center">
-              <h1 className="text-4xl font-extrabold tracking-tight lg:text-6xl text-white [text-shadow:_0_4px_20px_rgb(0_0_0_/_60%)] font-open-sans-custom">
-                Тарифы и цены
-              </h1>
-              <p className="text-gray-300 mt-4 text-sm md:text-base font-open-sans-custom [text-shadow:_0_2px_10px_rgb(0_0_0_/_50%)]">
-                Выберите подходящий план. От индивидуальных авторов до корпоративных команд — гибкие
-                тарифы для вашего успеха.
-              </p>
+      {/* CONTACT FORM */}
+      <section id="contact" className="py-24 px-4 bg-[#1a1b1e]">
+        <div className="max-w-5xl mx-auto">
+          <div className="mb-16 text-center">
+            <span className="font-bebas tracking-widest text-[#FE0CF6] text-lg">НАЧНИ СЕЙЧАС</span>
+            <h2 className="font-bebas text-5xl md:text-7xl text-white mt-2">ЗАПИСАТЬСЯ</h2>
+            <p className="text-gray-400 mt-4 max-w-xl mx-auto">
+              Оставьте заявку — мы свяжемся с вами в течение часа и подберём удобное время
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-px bg-white/10">
+            <div className="bg-[#212226] p-10 flex flex-col justify-between">
+              <div>
+                <h3 className="font-bebas text-3xl text-white mb-8">КОНТАКТЫ</h3>
+                <div className="space-y-6">
+                  {[
+                    { icon: "Phone", label: "+7 (495) 123-45-67" },
+                    { icon: "Mail", label: "info@labspacefit.ru" },
+                    { icon: "MapPin", label: "Москва, ул. Примерная, 10" },
+                    { icon: "Clock", label: "Пн–Вс: 07:00 – 23:00" },
+                  ].map((item) => (
+                    <div key={item.label} className="flex items-center gap-4">
+                      <div className="w-10 h-10 border border-[#FE0CF6]/40 flex items-center justify-center flex-shrink-0">
+                        <Icon name={item.icon as "Phone"} size={18} className="text-[#FE0CF6]" />
+                      </div>
+                      <span className="text-gray-300 text-sm">{item.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-10 p-6 border border-[#FE0CF6]/30 bg-[#FE0CF6]/5">
+                <p className="font-bebas text-2xl text-white">АКЦИЯ</p>
+                <p className="text-[#FE0CF6] font-bebas text-4xl">3 МЕСЯЦА В ПОДАРОК</p>
+                <p className="text-gray-400 text-sm mt-2">При покупке абонемента на 12 месяцев</p>
+              </div>
             </div>
-            <BentoPricing />
-          </div>
-        </section>
 
-        <section
-          id="about"
-          ref={aboutSectionRef}
-          className="relative min-w-full snap-start overflow-y-auto px-4 pt-24 pb-20 hide-scrollbar"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        >
-          <div
-            aria-hidden="true"
-            className={cn(
-              "absolute inset-0 z-0 size-full pointer-events-none",
-              "bg-[radial-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)]",
-              "bg-[size:12px_12px]",
-              "opacity-30",
-            )}
-          />
-
-          <div className="relative z-10 mx-auto w-full max-w-7xl">
-            <div className="mx-auto mb-10 max-w-2xl text-center">
-              <h1 className="text-4xl font-extrabold tracking-tight lg:text-6xl text-white [text-shadow:_0_4px_20px_rgb(0_0_0_/_60%)] font-open-sans-custom">
-                О нас
-              </h1>
-              <p className="text-gray-300 mt-4 text-sm md:text-base font-open-sans-custom [text-shadow:_0_2px_10px_rgb(0_0_0_/_50%)]">
-                Узнайте больше о нашей миссии, видении и ценностях, которые движут нами.
-              </p>
-            </div>
-            <AboutQuote />
-          </div>
-        </section>
-
-        <section
-          id="contact"
-          ref={contactSectionRef}
-          className="relative min-w-full snap-start overflow-y-auto px-4 pt-24 pb-20"
-        >
-          <div
-            aria-hidden="true"
-            className={cn(
-              "absolute inset-0 z-0 size-full pointer-events-none",
-              "bg-[radial-gradient(rgba(255,255,255,0.1)_1px,transparent_1px)]",
-              "bg-[size:12px_12px]",
-              "opacity-30",
-            )}
-          />
-
-          <div className="relative z-10 mx-auto w-full max-w-5xl mt-[5vh]">
-            <ContactCard
-              title="Свяжитесь с нами"
-              description="Если у вас есть вопросы о наших услугах или нужна помощь, заполните форму. Мы стараемся отвечать в течение 1 рабочего дня."
-              contactInfo={[
-                {
-                  icon: MailIcon,
-                  label: "Почта",
-                  value: "hello@promptcraft.dev",
-                },
-                {
-                  icon: PhoneIcon,
-                  label: "Телефон",
-                  value: "+7 (495) 123-45-67",
-                },
-                {
-                  icon: MapPinIcon,
-                  label: "Адрес",
-                  value: "Москва, Россия",
-                  className: "col-span-2",
-                },
-              ]}
-            >
-              <form action="" className="w-full space-y-4">
-                <div className="flex flex-col gap-2">
-                  <Label className="text-white [text-shadow:_0_2px_6px_rgb(0_0_0_/_40%)] font-open-sans-custom">
-                    Имя
-                  </Label>
+            <div className="bg-[#212226] p-10">
+              <form className="space-y-5">
+                <div>
+                  <Label className="font-bebas tracking-wide text-gray-400 text-sm">ИМЯ</Label>
                   <Input
                     type="text"
-                    className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 [text-shadow:_0_2px_6px_rgb(0_0_0_/_40%)]"
+                    placeholder="Ваше имя"
+                    className="mt-1 bg-transparent border-white/10 border-b-white/30 text-white placeholder:text-gray-600 rounded-none border-x-0 border-t-0 focus-visible:ring-0 focus-visible:border-b-[#FE0CF6] px-0"
                   />
                 </div>
-                <div className="flex flex-col gap-2">
-                  <Label className="text-white [text-shadow:_0_2px_6px_rgb(0_0_0_/_40%)] font-open-sans-custom">
-                    Email
-                  </Label>
-                  <Input
-                    type="email"
-                    className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 [text-shadow:_0_2px_6px_rgb(0_0_0_/_40%)]"
-                  />
-                </div>
-                <div className="flex flex-col gap-2">
-                  <Label className="text-white [text-shadow:_0_2px_6px_rgb(0_0_0_/_40%)] font-open-sans-custom">
-                    Телефон
-                  </Label>
+                <div>
+                  <Label className="font-bebas tracking-wide text-gray-400 text-sm">ТЕЛЕФОН</Label>
                   <Input
                     type="tel"
-                    className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 [text-shadow:_0_2px_6px_rgb(0_0_0_/_40%)]"
+                    placeholder="+7 (___) ___-__-__"
+                    className="mt-1 bg-transparent border-white/10 border-b-white/30 text-white placeholder:text-gray-600 rounded-none border-x-0 border-t-0 focus-visible:ring-0 focus-visible:border-b-[#FE0CF6] px-0"
                   />
                 </div>
-                <div className="flex flex-col gap-2">
-                  <Label className="text-white [text-shadow:_0_2px_6px_rgb(0_0_0_/_40%)] font-open-sans-custom">
-                    Сообщение
-                  </Label>
-                  <Textarea className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 [text-shadow:_0_2px_6px_rgb(0_0_0_/_40%)]" />
+                <div>
+                  <Label className="font-bebas tracking-wide text-gray-400 text-sm">ЧТО VAS ИНТЕРЕСУЕТ</Label>
+                  <div className="flex flex-wrap gap-2 mt-2">
+                    {["Пробное занятие — 500 ₽", "Абонемент на 12 мес", "Персональный тренинг"].map((opt) => (
+                      <button
+                        key={opt}
+                        type="button"
+                        className="border border-white/20 text-gray-400 text-xs px-3 py-1 hover:border-[#FE0CF6] hover:text-[#FE0CF6] transition-colors font-open-sans"
+                      >
+                        {opt}
+                      </button>
+                    ))}
+                  </div>
                 </div>
-                <Button
-                  className="w-full bg-white text-black hover:bg-gray-100 [text-shadow:_0_1px_2px_rgb(0_0_0_/_10%)] font-open-sans-custom"
+                <div>
+                  <Label className="font-bebas tracking-wide text-gray-400 text-sm">КОММЕНТАРИЙ</Label>
+                  <Textarea
+                    placeholder="Любые пожелания..."
+                    rows={3}
+                    className="mt-1 bg-transparent border-white/10 text-white placeholder:text-gray-600 rounded-none focus-visible:ring-0 focus-visible:border-[#FE0CF6] px-0 resize-none"
+                  />
+                </div>
+                <button
                   type="button"
+                  className="w-full font-bebas tracking-widest bg-[#FE0CF6] text-white py-4 text-xl hover:bg-[#FE0CF6]/80 transition-all pink-glow mt-2"
                 >
-                  Отправить
-                </Button>
+                  ОТПРАВИТЬ ЗАЯВКУ
+                </button>
+                <p className="text-gray-600 text-xs text-center">
+                  Нажимая кнопку, вы соглашаетесь с политикой конфиденциальности
+                </p>
               </form>
-            </ContactCard>
+            </div>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="bg-[#212226] border-t border-white/10 py-8 px-4">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-2">
+            <div className="w-6 h-6 rounded-full border border-[#FE0CF6] flex items-center justify-center">
+              <div className="w-2 h-2 rounded-full bg-[#FE0CF6]" />
+            </div>
+            <span className="font-bebas text-lg tracking-widest text-white">L.A.B SPACE</span>
+          </div>
+          <p className="text-gray-600 text-xs">© 2024 L.A.B SPACE FITNESS STUDIO. ВСЕ ПРАВА ЗАЩИЩЕНЫ.</p>
+          <div className="flex gap-4">
+            {["Instagram", "Vk"].map((s) => (
+              <a key={s} href="#" className="text-gray-600 hover:text-[#FE0CF6] transition-colors text-xs font-open-sans">
+                {s}
+              </a>
+            ))}
+          </div>
+        </div>
+      </footer>
     </main>
   )
 }
