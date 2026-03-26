@@ -51,7 +51,7 @@
   }
 
   body {
-    background-color: #12081e;
+    background-color: #212226;
     color: white;
     font-family: var(--font-open-sans);
   }
@@ -68,17 +68,37 @@
   }
 
   .btn-pink {
-    background: linear-gradient(135deg, #fe0cf6, #c500c0);
+    background: #fe0cf6;
+    border-radius: 9999px;
+    color: white;
+    font-family: var(--font-open-sans);
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    transition:
+      background 0.2s,
+      transform 0.15s,
+      box-shadow 0.2s;
+  }
+
+  .btn-pink:hover {
+    background: #e500dd;
+    transform: translateY(-1px);
+  }
+
+  .btn-outline-white {
+    border: 2px solid rgba(255, 255, 255, 0.35);
     border-radius: 9999px;
     color: white;
     font-weight: 600;
     transition:
-      opacity 0.2s,
+      border-color 0.2s,
+      color 0.2s,
       transform 0.15s;
   }
 
-  .btn-pink:hover {
-    opacity: 0.88;
+  .btn-outline-white:hover {
+    border-color: #fe0cf6;
+    color: #fe0cf6;
     transform: translateY(-1px);
   }
 }

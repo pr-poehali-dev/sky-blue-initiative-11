@@ -10,9 +10,8 @@ export function FloatingNavbar() {
     <nav
       className="fixed left-0 right-0 top-0 z-50"
       style={{
-        background: "rgba(12,5,22,0.92)",
-        backdropFilter: "blur(12px)",
-        borderBottom: "1px solid rgba(255,255,255,0.07)",
+        background: "#212226",
+        borderBottom: "1px solid rgba(255,255,255,0.08)",
       }}
     >
       <div className="mx-auto max-w-7xl px-6 py-4">
