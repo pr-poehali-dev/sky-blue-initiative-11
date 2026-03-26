@@ -18,12 +18,11 @@ export function FloatingNavbar() {
       <div className="mx-auto max-w-7xl px-6 py-4">
         <div className="flex items-center justify-between">
           <button onClick={() => scrollToSection("promo")} className="cursor-pointer">
-            <div className="flex items-center gap-2.5">
-              <div className="relative w-9 h-9 rounded-full border-2 border-[#FE0CF6] flex items-center justify-center">
-                <div className="w-3 h-3 rounded-full bg-[#FE0CF6]" style={{ boxShadow: "0 0 8px #FE0CF6" }} />
-              </div>
-              <span className="font-extrabold text-white text-xl tracking-wide">L.A.B SPACE</span>
-            </div>
+            <img
+              src="https://cdn.poehali.dev/projects/5e9f89bc-6533-4f3c-a6b5-a3eb69a6cd19/bucket/b19436f1-192d-44ce-8c75-8fe7f389d985.png"
+              alt="L.A.B SPACE"
+              className="h-10 w-auto object-contain"
+            />
           </button>
 
           <div className="hidden items-center gap-8 md:flex">
@@ -36,7 +35,7 @@ export function FloatingNavbar() {
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className="text-sm text-white/60 transition-colors hover:text-white"
+                className="font-bebas tracking-widest text-base text-white/60 transition-colors hover:text-white"
               >
                 {item.label}
               </button>
@@ -49,7 +48,7 @@ export function FloatingNavbar() {
             </a>
             <button
               onClick={() => scrollToSection("contact")}
-              className="btn-pink pink-glow px-5 py-2.5 text-sm font-semibold"
+              className="btn-pink pink-glow px-6 py-2.5 font-bebas tracking-widest text-base"
             >
               Записаться
             </button>

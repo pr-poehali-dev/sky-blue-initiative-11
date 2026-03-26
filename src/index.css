@@ -56,9 +56,15 @@
     font-family: var(--font-open-sans);
   }
 
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
   .font-bebas {
     font-family: var(--font-bebas);
-    letter-spacing: 0.02em;
+    letter-spacing: 0.04em;
   }
 
   .btn-pink {
