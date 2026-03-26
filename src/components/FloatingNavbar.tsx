@@ -7,42 +7,53 @@ export function FloatingNavbar() {
   }
 
   return (
-    <nav className="fixed left-0 right-0 top-0 z-50 px-4 py-4">
-      <div className="mx-auto max-w-7xl border border-white/10 bg-[#212226]/90 px-6 py-4 backdrop-blur-sm">
+    <nav
+      className="fixed left-0 right-0 top-0 z-50"
+      style={{
+        background: "rgba(12,5,22,0.92)",
+        backdropFilter: "blur(12px)",
+        borderBottom: "1px solid rgba(255,255,255,0.07)",
+      }}
+    >
+      <div className="mx-auto max-w-7xl px-6 py-4">
         <div className="flex items-center justify-between">
-          <button onClick={() => scrollToSection("home")} className="cursor-pointer">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-full border-2 border-[#FE0CF6] flex items-center justify-center">
-                <div className="w-3 h-3 rounded-full bg-[#FE0CF6]" />
+          <button onClick={() => scrollToSection("promo")} className="cursor-pointer">
+            <div className="flex items-center gap-2.5">
+              <div className="relative w-9 h-9 rounded-full border-2 border-[#FE0CF6] flex items-center justify-center">
+                <div className="w-3 h-3 rounded-full bg-[#FE0CF6]" style={{ boxShadow: "0 0 8px #FE0CF6" }} />
               </div>
-              <span className="font-bebas text-xl tracking-widest text-white">L.A.B SPACE</span>
+              <span className="font-extrabold text-white text-xl tracking-wide">L.A.B SPACE</span>
             </div>
           </button>
 
           <div className="hidden items-center gap-8 md:flex">
             {[
-              { id: "promo", label: "АКЦИЯ" },
-              { id: "features", label: "ПРЕИМУЩЕСТВА" },
-              { id: "trainers", label: "ТРЕНЕРЫ" },
-              { id: "reviews", label: "ОТЗЫВЫ" },
-              { id: "contact", label: "КОНТАКТЫ" },
+              { id: "promo", label: "Пробная тренировка" },
+              { id: "features", label: "Преимущества" },
+              { id: "trainers", label: "Тренеры" },
+              { id: "reviews", label: "Отзывы" },
             ].map((item) => (
               <button
                 key={item.id}
                 onClick={() => scrollToSection(item.id)}
-                className="font-bebas text-sm tracking-widest text-gray-400 transition-colors hover:text-[#FE0CF6]"
+                className="text-sm text-white/60 transition-colors hover:text-white"
               >
                 {item.label}
               </button>
             ))}
           </div>
 
-          <button
-            onClick={() => scrollToSection("contact")}
-            className="font-bebas tracking-widest bg-[#FE0CF6] text-white px-5 py-2 text-sm hover:bg-[#FE0CF6]/80 transition-colors pink-glow"
-          >
-            ЗАПИСАТЬСЯ
-          </button>
+          <div className="flex items-center gap-4">
+            <a href="tel:+74954199754" className="hidden md:block text-white/55 text-sm hover:text-white transition-colors">
+              +7 495 419-97-54
+            </a>
+            <button
+              onClick={() => scrollToSection("contact")}
+              className="btn-pink pink-glow px-5 py-2.5 text-sm font-semibold"
+            >
+              Записаться
+            </button>
+          </div>
         </div>
       </div>
     </nav>
